@@ -1,0 +1,5 @@
+data/
+result/
+slide/
+.vscode
+format/__pycache__/

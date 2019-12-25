@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 import os
+import random
 
 
 class format_model:
@@ -15,9 +16,7 @@ class format_model:
         """
         self.save_dir = save_dir
 
-    def make_frames(
-        self, video_name, label, *, dirpass="frames", base_name="frame", ext="jpg"
-    ):
+    def make_frames(self, video_name, label, *, base_name="frame", ext="jpg"):
         """ 動画をフレームに分割する変更する関数
         
         Parameters
@@ -41,14 +40,13 @@ class format_model:
         cap = cv2.VideoCapture(video_name)
         if not cap.isOpened():
             return -1
-        n = 0
         while True:
             ret, frame = cap.read()
             if ret:
+                n = random.randint(0, 100000000000)
                 cv2.imwrite(
                     "{}/{}_{}.{}".format(label_dir, base_name, str(n), ext), frame
                 )
-                n += 1
             else:
                 return 0
 
@@ -114,7 +112,6 @@ class format_model:
                 outname = self.save_dir + outname
         out = cv2.resize(filematrix, dsize=size)
         if mode == 0:
-            print(outname)
             cv2.imwrite(outname, out)
             return 0
         else:

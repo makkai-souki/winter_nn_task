@@ -4,3 +4,4 @@ slide/
 .vscode
 format/__pycache__/
 video/
+tmp/

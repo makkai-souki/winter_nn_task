@@ -3,6 +3,7 @@ import cv2
 import matplotlib.pyplot as plt
 import os
 import random
+from keras.preprocessing.image import array_to_img, img_to_array, load_img
 
 
 class format_model:
@@ -116,6 +117,41 @@ class format_model:
             return 0
         else:
             return out
+
+    def convert_markdata2npz(
+        self, test_ratio, *, base_dir="", labels=["s", "h", "k", "d"]
+    ):
+        X_train = []
+        Y_train = []
+        X_test = []
+        Y_test = []
+        num = 0
+        for label in labels:
+            n = 0
+            data = os.listdir(self.save_dir + base_dir + label)
+            file_num = len(data)
+            test = int(file_num * test_ratio)
+            for filename in data:
+                if ".jpg" in filename:
+                    img = self.save_dir + label + "/" + filename
+                    tmp_img_array = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
+                else:
+                    continue
+                if n > test:
+                    X_train.append(tmp_img_array)
+                    Y_train.append(num)
+                else:
+                    X_test.append(tmp_img_array)
+                    Y_test.append(num)
+                n += 1
+            num += 1
+        np.savez(
+            self.save_dir + "dataset",
+            x_train=X_train,
+            y_train=Y_train,
+            x_test=X_test,
+            y_test=Y_test,
+        )
 
     def convert_zip(self, dir_name):
         """ フォルダを圧縮する

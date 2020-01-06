@@ -1,8 +1,9 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import pandas as pd
-import tensorflow as tf
 import keras
 from keras import layers, models
 from keras import optimizers
@@ -21,13 +22,12 @@ class nn_model:
             バッチサイズ, by default 64
         """
         self.epochs = epochs
+        print(self.epochs)
         self.batch = batch
         self.categories = categories
         self.nb_classes = len(self.categories)
 
     def load_data(self, *, data_pass="./data/dataset.npz"):
-        self.categories = ["s", "h", "k", "d"]
-        self.nb_classes = len(self.categories)
         f = np.load(data_pass)
         X_train, self.y_train = f["x_train"], f["y_train"]
         X_test, self.y_test = f["x_test"], f["y_test"]
@@ -62,12 +62,16 @@ class nn_model:
         print(self.model.summary())
 
     def fitting(self):
-        self.fit = self.model.fit(
+        self.history = self.model.fit(
             self.x_train,
             self.y_train,
             epochs=self.epochs,
             validation_data=(self.x_test, self.y_test),
         )
+        self.acc = self.history.history["acc"]
+        self.val_acc = self.history.history["val_acc"]
+        self.loss = self.history.history["loss"]
+        self.val_loss = self.history.history["val_loss"]
 
     def get_score(self):
         self.score = self.model.evaluate(self.x_train, self.y_test)
@@ -75,5 +79,14 @@ class nn_model:
     def summery_model(self):
         pass
 
-    def graphing_history(self):
-        pass
+    def get_lossepoch_graph(self, *, save_file="./result/lossepoch.png"):
+        epoches = np.array(range(self.epochs))
+        plt.figure()
+        plt.plot(epoches, self.val_loss)
+        plt.savefig(save_file)
+
+    def get_accepoch_graph(self, *, save_file="./result/accepoch.png"):
+        epoches = np.array(range(self.epochs))
+        plt.figure()
+        plt.plot(epoches, self.val_acc)
+        plt.savefig(save_file)

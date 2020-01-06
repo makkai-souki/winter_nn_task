@@ -19,7 +19,7 @@ class format_controller:
         self.label = label
         self.video_pass = video_pass
 
-    def make_datasets(self):
+    def make_datasets(self, input_size=(50, 50)):
         self.fm.make_frames(self.video_pass, self.label)
         img_list = os.listdir(self.fm.save_dir + self.label)
         for img in img_list:
@@ -27,6 +27,5 @@ class format_controller:
             self.fm.resize_frame(
                 filematrix=tmp,
                 outname="./data/" + self.label + "/" + img,
-                size=(200, 200),
+                size=input_size,
             )
-

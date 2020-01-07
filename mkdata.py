@@ -3,16 +3,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 videos = {
-    "s11": "s",
-    "s12": "s",
-    "h11": "h",
-    "h12": "h",
-    "h13": "h",
-    "k11": "k",
-    "k12": "k",
-    "k13": "k",
-    "d11": "d",
-    "d12": "d",
+    "s1_1": "s",
+    "s1_2": "s",
+    "h1_2": "h",
+    "h1_3": "h",
+    "h2_1": "h",
+    "k1_1": "k",
+    "k1_2": "k",
+    "k1_3": "k",
+    "d1_1": "d",
+    "d1_2": "d",
+    #
+    "s2_1": "s",
+    "h1_1": "h",
+    "k2_1": "k",
+    "d2_1": "d",
 }
 print(videos.items())
 for key, value in videos.items():

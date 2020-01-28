@@ -3,5 +3,6 @@ result/
 slide/
 .vscode
 format/__pycache__/
+nn/__pycache__/
 video/
 tmp/

@@ -135,6 +135,7 @@ class format_model:
                 if ".jpg" in filename:
                     img = self.save_dir + label + "/" + filename
                     tmp_img_array = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
+                    # print(tmp_img_array)
                 else:
                     continue
                 if n > test:
